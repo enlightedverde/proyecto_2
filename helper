@@ -1,0 +1,1 @@
+cat file_temp | grep "<center>" | sed 's/<br \/>/\n/g' | grep -v ">" | sed '1d' | sed '1d'  > final
