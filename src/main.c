@@ -45,11 +45,43 @@ void	swap_char(char *a, char *b)
 	*b = aux;
 }
 
+int	is_char_set(char c, char *set)
+{
+	int	i;
+
+	i = -1;
+	while (*(set + ++i))
+	{
+		if (c == *(set + i))
+			return (1);
+	}
+	return (0);
+}
+
+int	count_till_set(char *s, char *set)
+{
+	int	i;
+
+	i = -1;
+	while (*(s + ++i))
+	{
+		if (is_char_set(*(s + i), set))
+				return (i);
+	}
+	return (0);
+}
+
 void	process_line(char *line)
 {
 	char	**words;
 	char	*w1;
+	int	w1_p1;
+	int	w1_p2;
+	char	*w1_aux;
 	char	*w2;
+	int	w2_p1;
+	int	w2_p2;
+	char	*w2_aux;
 	int	i;
 
 	words = ft_split(line, ' ');
@@ -70,8 +102,30 @@ void	process_line(char *line)
 	}
 	if (w1 && w2)
 	{
-		swap_char(w1, w2);
-		swap_char(w1 + 1, w2 + 1);
+		w1_p1 = count_till_set(w1, "aeiou") + 1; 	
+		w1_p2 = ft_strlen(w1) - w1_p1;
+		w2_p1 = count_till_set(w2, "aeiou") + 1; 	
+		w2_p2 = ft_strlen(w2) - w2_p1;
+		w1_aux = malloc(100);
+		w2_aux = malloc(100);
+		ft_strlcpy(w1_aux, w2, w2_p1 + 1);
+		ft_strlcpy(w1_aux + w2_p1, w1 + w1_p1, w1_p2 + 1);
+		ft_strlcpy(w2_aux, w1, w1_p1 + 1);
+		ft_strlcpy(w2_aux + w1_p1, w2 + w2_p1, w2_p2 + 1);
+		i = -1;
+		while (words[++i])
+		{
+			if (words[i] == w1)
+			{
+				free(w1);
+				words[i] = w1_aux;
+			}
+			if (words[i] == w2)
+			{
+				free(w2);
+				words[i] = w2_aux;
+			}
+		}
 	}
 	printf("%s", words[0]);
 	i = 0;

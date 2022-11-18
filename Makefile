@@ -7,7 +7,7 @@ LIB	= ./lib/libft/libft.a
 
 CC	= cc
 
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= #-Wall -Werror -Wextra
 
 NAME	= bot_poesia
 
