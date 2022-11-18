@@ -4,6 +4,16 @@
 
 #include "../inc/general.h"
 
+void	kill_split(char **s)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i])
+		free(s[i]);
+	free(s);
+}
+
 void	help(void)
 {
 	printf("Help panel\n");
@@ -37,39 +47,37 @@ void	swap_char(char *a, char *b)
 
 void	process_line(char *line)
 {
-	char	*last;
-	char	*pre;
-	int	counter;
-	char	*aux;
+	char	**words;
+	char	*w1;
+	char	*w2;
+	int	i;
 
-	aux = line;
-	while (*line)
-		line++;
-	while (*(line - 1) != ' ')
-		line--;
-	last = line--;
-	pre = NULL;
-	while (line-- != aux && !pre)
+	words = ft_split(line, ' ');
+	i = 0;
+	while (words[i])
+		i++;
+	w1 = NULL;
+	w2 = NULL;
+	while (--i != -1 && !w2)
 	{
-		if (*line == ' ')
+		if (!w1 && ft_strlen(words[i]) > 4)
 		{
-			pre = line + 1;
-			counter = 0;
-			while (*pre != ' ')
-			{
-				pre++;
-				counter++;
-			}
-			if (counter > 2)
-				pre = NULL;
+			w1 = words[i];
+			continue ; 	
 		}
-	}	
-	if (*line)
-	{
-		swap_char(last, pre);
-		swap_char(last + 1, pre + 1);
+		if (!w2 && ft_strlen(words[i]) > 4)
+			w2 = words[i];
 	}
-	aux++;
+	if (w1 && w2)
+	{
+		swap_char(w1, w2);
+		swap_char(w1 + 1, w2 + 1);
+	}
+	printf("%s", words[0]);
+	i = 0;
+	while (words[++i] != NULL)
+		printf(" %s", words[i]);
+	kill_split(words);
 }
 
 void	apply_vorgon(void)
@@ -90,7 +98,6 @@ void	apply_vorgon(void)
 			process_line(line);
 		else
 			printf("\n");
-		printf("%s", line);
 		free(line);
 		line = get_next_line(fd);
 	}	
