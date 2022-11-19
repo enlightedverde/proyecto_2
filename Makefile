@@ -21,12 +21,12 @@ ${NAME}:	${OBJS}
 		${CC} -o ${NAME} ${OBJS} ${LIB}
 
 clean:
-		make -C ./lib/libft clean
-		${RM} ${OBJS} ${OBJSLST} final file_temp
+		@make -C ./lib/libft clean
+		@${RM} ${OBJS} ${OBJSLST} final file_temp audio.mp3 file_reader
 
 fclean:		clean
-		make -C ./lib/libft fclean
-		${RM} ${NAME}
+		@make -C ./lib/libft fclean
+		@${RM} ${NAME}
 
 all:		${NAME}
 

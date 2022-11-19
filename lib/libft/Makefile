@@ -61,16 +61,16 @@ RM	= rm -f
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS}
-		${AR} ${NAME} ${OBJS}
+		@${AR} ${NAME} ${OBJS}
 
 bonus:		${OBJS} ${OBJSLST}
-		${AR} ${NAME} ${OBJS} ${OBJSLST}
+		@${AR} ${NAME} ${OBJS} ${OBJSLST}
 
 clean:
-		${RM} ${OBJS} ${OBJSLST}
+		@${RM} ${OBJS} ${OBJSLST}
 
 fclean:		clean
-		${RM} ${NAME}
+		@${RM} ${NAME}
 
 all:		${NAME}
 
